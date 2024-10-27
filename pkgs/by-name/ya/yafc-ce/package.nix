@@ -1,7 +1,5 @@
 {
   buildDotnetModule,
-  stdenv,
-  lua,
   lib,
   fetchFromGitHub,
   dotnetCorePackages,
@@ -9,7 +7,6 @@
   SDL2_image,
   SDL2_ttf,
 }:
-
 let
   dotnet = dotnetCorePackages.dotnet_8;
   pname = "yafc-ce";
@@ -39,11 +36,6 @@ buildDotnetModule {
     SDL2_ttf
     SDL2_image
   ];
-
-  # Arm requires a direct reference to liblua.so.5.2
-  postInstall = lib.strings.optionalString stdenv.hostPlatform.isAarch64 ''
-    install -Dm644 "${lua}/lib/liblua.so.5.2" "$out/lib/yafc-ce/liblua52.so"
-  '';
 
   meta = rec {
     description = "Powerful Factorio calculator/analyser that works with mods, Community Edition";
